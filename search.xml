@@ -168,7 +168,7 @@
     <title>GoldenEye</title>
     <url>/2024/09/22/GoldenEye/</url>
     <content><![CDATA[<p>Greetings! Today, we will embark on a challenge by exploring a Capture the Flag (CTF) room on TryHackMe.</p>
-<h6 id="Room-link-GoldenEye"><a href="#Room-link-GoldenEye" class="headerlink" title="Room link: GoldenEye"></a><strong>Room link: <a class="link"   href="https://tryhackme.com/r/room/goldeneye" >GoldenEye <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></h6><h4 id="TASK-1-Intro"><a href="#TASK-1-Intro" class="headerlink" title="TASK-1: Intro"></a><strong>TASK-1: Intro</strong></h4><p>Deployed the machine and connect to ovpn in my attacker machine </p>
+<h6 id="Room-link-GoldenEye"><a href="#Room-link-GoldenEye" class="headerlink" title="Room link: GoldenEye"></a><strong>Room link: <a class="link"   href="https://tryhackme.com/r/room/goldeneye" >GoldenEye <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></h6><h4 id="TASK-1-Intro"><a href="#TASK-1-Intro" class="headerlink" title="TASK-1:Intro"></a><strong>TASK-1:Intro</strong></h4><p>Deployed the machine and connect to ovpn in my attacker machine </p>
 <p>1.<strong>First things first, connect to our network and deploy the machine.</strong></p>
 <p>   Launched an NMAP scan with &#96;nmap -sV -p- 10.10.74.253 -Pn<br>    <img  
                      lazyload
@@ -223,7 +223,7 @@
                 ></p>
 </li>
 </ol>
-<h4 id="TASK-2-It’s-mail-time…"><a href="#TASK-2-It’s-mail-time…" class="headerlink" title="TASK-2: It’s mail time…"></a><strong>TASK-2: It’s mail time…</strong></h4><p>Going on to next steps</p>
+<h4 id="TASK-2-It’s-mail-time…"><a href="#TASK-2-It’s-mail-time…" class="headerlink" title="TASK-2:It’s mail time…"></a><strong>TASK-2:It’s mail time…</strong></h4><p>Going on to next steps</p>
 <ol>
 <li><strong>Took a look at some of the other services that were found in nmap scan. The credentials are not re-usable?</strong></li>
 </ol>
@@ -287,7 +287,7 @@
 <p>In one of the emails, I found <code>Xenia</code> password.</p>
 </li>
 </ol>
-<h4 id="TASK-3"><a href="#TASK-3" class="headerlink" title="TASK-3"></a><strong>TASK-3</strong></h4><p>In the above discovered email, there is the <code>severnaya-station.com</code> website. To get this working, you need up update your DNS records to reveal it.</p>
+<h4 id="TASK-3-GoldenEye-Operators-Training"><a href="#TASK-3-GoldenEye-Operators-Training" class="headerlink" title="TASK-3:GoldenEye Operators Training"></a><strong>TASK-3:GoldenEye Operators Training</strong></h4><p>In the above discovered email, there is the <code>severnaya-station.com</code> website. To get this working, you need up update your DNS records to reveal it.</p>
 <ol>
 <li><p>If you’re on Linux edit your “&#x2F;etc&#x2F;hosts” file and add:</p>
 <p><code>&lt;machines ip&gt;</code> severnaya-station.com</p>
